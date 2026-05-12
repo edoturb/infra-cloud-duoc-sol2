@@ -1,23 +1,17 @@
-name: INFRA-AWS-FINAL
-
-on:
-  workflow_dispatch:
-
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Saludando al Chef
-        run: echo "Preparando la infraestructura..."
-      
-      - name: Delegar a Duoc
-        uses: asanchezo-duoc/AUY1104-SharedWorkflows/.github/workflows/infra2-ea2-provision-cloud-lab.yaml@EA2
-        with:
-          aws_region: us-east-1
-          instance_type: t3.medium
-          vpc_octet: "42"
-          s3_status_bucket: ${{ vars.EA2_S3_BUCKET }}
-        secrets:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+  delegar:
+    uses: asanchezo-duoc/AUY1104-SharedWorkflows/.github/workflows/infra2-ea2-provision-cloud-lab.yaml@main
+
+    with:
+      aws_region: ${{ inputs.aws_region }}
+      instance_type: ${{ inputs.instance_type }}
+      vpc_octet: ${{ inputs.vpc_octet }}
+      s3_status_bucket: ${{ vars.EA2_S3_BUCKET }}
+
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+      EA2_SSH_PRIVATE_KEY: ${{ secrets.EA2_SSH_PRIVATE_KEY }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

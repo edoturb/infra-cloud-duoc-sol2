@@ -1,0 +1,37 @@
+name: INFRA2-AWS-LAB
+
+on:
+  workflow_dispatch:
+    inputs:
+      aws_region:
+        description: 'Region'
+        default: 'us-east-1'
+      vpc_octet:
+        description: 'VPC Octet'
+        default: '42'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test AWS Credentials
+        run: |
+          echo "Verificando que los secretos existan..."
+          if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then echo "ERROR: AWS_ACCESS_KEY_ID no configurado"; exit 1; fi
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+
+  delegar:
+    uses: asanchezo-duoc/AUY1104-SharedWorkflows/.github/workflows/infra2-ea2-provision-cloud-lab.yaml@EA2
+    with:
+      aws_region: us-east-1
+      instance_type: t3.medium
+      vpc_octet: "42"
+      s3_status_bucket: ${{ vars.EA2_S3_BUCKET }}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}

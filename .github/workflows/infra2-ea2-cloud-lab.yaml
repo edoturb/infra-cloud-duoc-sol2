@@ -26,6 +26,7 @@ jobs:
       aws_region: ${{ inputs.aws_region }}
       instance_type: ${{ inputs.instance_type }}
       vpc_octet: ${{ inputs.vpc_octet }}
+      db_username: "db_urbina"
       s3_status_bucket: ${{ vars.EA2_S3_BUCKET }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

@@ -21,12 +21,12 @@ on:
 
 jobs:
   delegar:
+    # EL CAMBIO CLAVE: Cambiamos @EA2 por @main como dice tu chat
     uses: asanchezo-duoc/AUY1104-SharedWorkflows/.github/workflows/infra2-ea2-provision-cloud-lab.yaml@main
     with:
       aws_region: ${{ inputs.aws_region }}
       instance_type: ${{ inputs.instance_type }}
       vpc_octet: ${{ inputs.vpc_octet }}
-      db_username: "db_urbina"
       s3_status_bucket: ${{ vars.EA2_S3_BUCKET }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
